@@ -16,10 +16,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.util.Arrays;
 
@@ -40,27 +38,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//		http
-//				.csrf().disable()
-//				.authorizeRequests()
-//				.antMatchers("/")
-//				.permitAll();
         http
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
                 .csrf().disable()
-                .cors()
-                .and()
-                .authorizeRequests().anyRequest().authenticated()
-                .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
-                .and()
-                .addFilterBefore(
-                        new AccessTokenFilter(
-                                jwtTokenValidator(keycloakJwkProvider()),
-                                authenticationManagerBean(),
-                                authenticationFailureHandler()),
-                        BasicAuthenticationFilter.class);
+                .authorizeRequests()
+                .antMatchers("/")
+                .permitAll();
+//         http
+//                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                 .and()
+//                 .csrf().disable()
+//                 .cors()
+//                 .and()
+//                 .authorizeRequests().anyRequest().authenticated()
+//                 .and()
+//                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+//                 .and()
+//                 .addFilterBefore(
+//                         new AccessTokenFilter(
+//                                 jwtTokenValidator(keycloakJwkProvider()),
+//                                 authenticationManagerBean(),
+//                                 authenticationFailureHandler()),
+//                         BasicAuthenticationFilter.class);
     }
 
     //swagger-ui excluded from security if development profile enabled

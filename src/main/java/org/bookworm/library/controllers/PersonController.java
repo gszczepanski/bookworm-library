@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bookworm.library.dto.PersonDto;
 import org.bookworm.library.entities.PersonType;
-import org.bookworm.library.security.roles.AllowedRoles;
 import org.bookworm.library.services.PersonService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,21 +28,21 @@ public class PersonController {
     private final PersonService personService;
 
     @PostMapping(value = "")
-    @AllowedRoles("EDITOR")
+    //@AllowedRoles("EDITOR")
     public ResponseEntity<PersonDto> insert(@RequestBody PersonDto personDto) {
         log.info("Inserting person {}", personDto);
         return new ResponseEntity<>(personService.save(personDto), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "")
-    @AllowedRoles("EDITOR")
+    //@AllowedRoles("EDITOR")
     public ResponseEntity<PersonDto> update(@RequestBody PersonDto personDto) {
         log.info("Updating person {}", personDto);
         return new ResponseEntity<>(personService.save(personDto), HttpStatus.OK);
     }
 
     @GetMapping(value = "")
-    @AllowedRoles("CLIENT")
+    //@AllowedRoles("CLIENT")
     public ResponseEntity<Page<PersonDto>> findAll(Pageable pageable) {
         log.info("Find all persons for {}", pageable);
         Page<PersonDto> personDtos = personService.findAll(pageable);
@@ -55,7 +54,7 @@ public class PersonController {
     }
 
     @GetMapping(value = "/{id}")
-    @AllowedRoles("CLIENT")
+    //@AllowedRoles("CLIENT")
     public ResponseEntity<PersonDto> findById(@PathVariable(value = "id") UUID id) {
         log.info("Searching for person with id {}", id);
         Optional<PersonDto> personDtoOptional = personService.findById(id);
@@ -67,7 +66,7 @@ public class PersonController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @AllowedRoles("EDITOR")
+    //@AllowedRoles("EDITOR")
     public ResponseEntity<String> deleteById(@PathVariable(value = "id") UUID id) {
         log.info("Deleting person with id {}", id);
         personService.deleteById(id);
@@ -75,7 +74,7 @@ public class PersonController {
     }
 
     @PatchMapping(value = "/{id}/type/{type}")
-    @AllowedRoles("EDITOR")
+    //@AllowedRoles("EDITOR")
     public ResponseEntity<String> setType(@PathVariable(value = "type") PersonType type,
                                           @PathVariable(value = "id") UUID id) {
         log.info("Setting type {} for person with id {}", type, id);
